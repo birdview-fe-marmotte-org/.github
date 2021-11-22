@@ -1,0 +1,37 @@
+name: Reusable send Message
+
+on:
+  workflow_call:
+    inputs:
+      title:
+        required: true
+        type: string
+      username:
+        required: false
+        type: string
+      repo_name:
+        required: false
+        type: string
+      pr_body:
+        required: false
+        type: string
+      pr_url:
+        required: false
+        type: string
+jobs:
+  send-slack-message:
+    name: Send Slack Message
+    runs-on: ubuntu-latest
+    steps:
+      - name: Slack Notification
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_TITLE: ${{ inputs.title }}
+          SLACK_USERNAME: ${{ inputs.username }}
+          SITE_NAME: ${{ inputs.repo_name }}
+          SLACK_MESSAGE: ${{ inputs.pr_body }}
+          SLACK_FOOTER: ${{ inputs.pr_url }}
+          SLACK_COLOR: "#49ccd5"
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          MSG_MINIMAL: commit, url
+          SLACK_LINK_NAMES: true
