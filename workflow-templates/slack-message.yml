@@ -1,0 +1,22 @@
+name: plz_code_review
+
+on:
+  pull_request:
+    types: [opened, reopened]
+jobs:
+  send-slack-message:
+    name: Send Slack Message
+    runs-on: ubuntu-latest
+    steps:
+      - name: Slack Notification
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_COLOR: "#49ccd5"
+          SITE_NAME: "repo title"
+          SLACK_MESSAGE: ${{ github.event.pull_request.body }}
+          SLACK_TITLE: ${{ github.event.pull_request.title }}
+          SLACK_USERNAME: ${{ github.event.pull_request.user.login }}
+          SLACK_FOOTER: ${{ github.event.pull_request.html_url }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          MSG_MINIMAL: commit
+          SLACK_LINK_NAMES: true
