@@ -26,12 +26,11 @@ jobs:
       - name: Slack Notification
         uses: rtCamp/action-slack-notify@v2
         env:
-          SLACK_TITLE: ${{ inputs.title }}
-          SLACK_USERNAME: ${{ inputs.username }}
-          SITE_NAME: ${{ inputs.repo_name }}
-          SLACK_MESSAGE: ${{ inputs.pr_body }}
-          SLACK_FOOTER: ${{ inputs.pr_url }}
-          SLACK_COLOR: "#49ccd5"
+          SLACK_MESSAGE: ${{ github.event.pull_request.body }}
+          SLACK_TITLE: ${{ github.event.pull_request.title }}
+          SLACK_USERNAME: ${{ github.event.pull_request.user.login }}
+          SLACK_FOOTER: ${{ github.event.pull_request.html_url }} 
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-          MSG_MINIMAL: commit, url
+          SLACK_COLOR: "#49ccd5"
+          MSG_MINIMAL: commit
           SLACK_LINK_NAMES: true
